@@ -195,6 +195,82 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 850; letter-spacing: -.01
 .faq details[open] summary::after { content: "–"; }
 .faq details p { padding: 0 1.25rem 1.15rem; margin: 0; color: var(--muted); }
 
+/* ---------- cartas en alza (trending.json del Hub) */
+.hot-pill {
+  display: inline-flex; align-items: center; gap: .4rem; margin-bottom: 1rem;
+  padding: .4rem .95rem; border-radius: 99px; text-decoration: none;
+  background: rgba(245, 197, 66, .14); border: 1px solid rgba(245, 197, 66, .5);
+  color: var(--gold); font-weight: 700; font-size: .92rem;
+  animation: hot-pulse 2.4s ease-in-out infinite;
+}
+.hot-pill:hover { background: rgba(245, 197, 66, .22); }
+@keyframes hot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 197, 66, .35); }
+  50% { box-shadow: 0 0 0 9px rgba(245, 197, 66, 0); }
+}
+.links .nav-hot { color: var(--gold); font-weight: 700; }
+
+.hot {
+  background: radial-gradient(900px 380px at 50% 0%, rgba(245, 197, 66, .10), transparent 70%), var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.hot-strip {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 1rem;
+}
+.hot-card a {
+  display: flex; flex-direction: column; height: 100%;
+  color: var(--text); text-decoration: none;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.hot-card a:hover, .hot-card a:focus-visible {
+  transform: translateY(-4px); border-color: rgba(245, 197, 66, .6);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .45), 0 0 0 1px rgba(245, 197, 66, .2);
+}
+.hot-img { position: relative; aspect-ratio: 488 / 680; background: #120b28; }
+.hot-img img { width: 100%; height: 100%; object-fit: cover; }
+.hot-card.foil .hot-img::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(125deg, transparent 22%, rgba(255, 255, 255, .32) 38%, rgba(167, 139, 250, .28) 46%,
+    rgba(96, 165, 250, .22) 54%, transparent 70%);
+  background-size: 250% 250%; animation: hot-foil 4.5s linear infinite;
+}
+@keyframes hot-foil { from { background-position: 100% 100%; } to { background-position: -150% -150%; } }
+.hot-badge {
+  position: absolute; top: .5rem; right: .5rem; padding: .2rem .55rem; border-radius: 99px;
+  background: var(--gold); color: var(--gold-ink); font-weight: 850; font-size: .85rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .4);
+}
+.hot-last {
+  position: absolute; left: .5rem; bottom: .5rem; padding: .15rem .55rem; border-radius: 99px;
+  background: rgba(21, 14, 46, .92); border: 1px solid rgba(245, 197, 66, .5); color: #ffe08a;
+  font-size: .75rem; font-weight: 700;
+}
+.hot-info { display: flex; flex-direction: column; gap: .2rem; padding: .8rem .85rem 1rem; flex: 1; }
+.hot-info strong { line-height: 1.25; }
+.hot-info small { color: var(--muted); font-size: .8rem; line-height: 1.3; }
+.hot-price {
+  display: flex; justify-content: space-between; align-items: baseline; gap: .5rem;
+  margin-top: .4rem; color: var(--muted); font-size: .76rem;
+}
+.hot-price b { color: var(--text); font-size: 1.05rem; white-space: nowrap; }
+.hot-cta {
+  display: inline-flex; align-items: center; gap: .35rem; margin-top: auto; padding-top: .6rem;
+  color: var(--tg); font-weight: 700; font-size: .88rem;
+}
+.hot-cta svg { width: 16px; height: 16px; flex: none; }
+.hot-note { color: var(--muted); font-size: .8rem; text-align: center; margin: 1rem auto 0; max-width: 60em; }
+@media (max-width: 640px) {
+  /* En móvil: carrusel horizontal que se desliza con el dedo */
+  .hot-strip {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 62%;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin: 0 -16px; padding: 0 16px .75rem; scroll-padding-inline: 16px;
+  }
+  .hot-card { scroll-snap-align: start; }
+}
+
 /* ---------- llamada final y pie */
 .final {
   text-align: center; padding: clamp(3.5rem, 8vw, 6rem) 0;
@@ -210,5 +286,6 @@ h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 850; letter-spacing: -.01
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn { transition: none; }
+  .btn, .hot-card a { transition: none; }
+  .hot-pill, .hot-card.foil .hot-img::after { animation: none; }
 }
